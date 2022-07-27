@@ -68,6 +68,7 @@ often contain variables that will be used by many classes in the program:
 import sqlite3
 
 CONN = sqlite3.connect('db/music.db')
+CURSOR = CONN.cursor()
 ```
 
 Here we set up a constant, `CONN`, that is equal to a hash that contains our
@@ -75,7 +76,7 @@ connection to the database. In our `lib/song.py` file, we can
 therefore access the `CONN` constant like this:
 
 ```py
-from . import CONN
+from . import CURSOR
 ```
 
 The starter code for these files is set up, so you can explore it and code along
@@ -155,7 +156,7 @@ Open the Python shell from this lesson's root directory and enter the following
 code:
 
 ```py
-from lib import CONN
+from lib import CURSOR
 from lib.song import Song
 ```
 
