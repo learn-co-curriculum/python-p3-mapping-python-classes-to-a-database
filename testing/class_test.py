@@ -1,39 +1,34 @@
-"""
-pytest requires that all testing modules, classes, methods, and functions
-contain the word "test" somewhere within them.
-
-The conventions for naming tests in the Python curriculum are as follows:
-
-    - One test module should be created for each class. If there are no classes
-      to test, one test module should be created for each module being tested.
-    - Test modules should be named {classname}_test.py, or {modulename}_test.py
-      if necessary.
-    - Test modules should be located at the base of the "testing" package.
-    
-    In {classname}_test.py:
-        - There should be one testing class, named Test{Classname}.
-        - The testing class should contain the following docstring:
-            
-            '''Class {Classname} in {modulename}.py'''
-
-        - There should be at least one testing method for each instance, class,
-          or static method belonging to the class being tested, including
-          __init__.
-        - Each testing method should be named test_{performs/does_behavior},
-          where {performs/does_behavior} is a clear and concise description of
-          the desired behavior.
-        - Each testing method should only test one behavior.
-        - Each testing method should contain the following docstring:
-
-            '''performs/does behavior when {x} happens.'''
-
-            ...where {x} describes the manipulation that takes place within
-            the test.
-"""
+from lib import CURSOR
+from lib.song import Song
 
 class TestClass:
-    '''Class {Classname} in {modulename}.py'''
+    '''Class Song in song.py'''
 
-    def test_performs_behavior(self):
-        '''performs behavior when something happens.'''
-        assert(False)
+    def test_creates_songs_table(self):
+        '''has classmethod "create_table()" that creates a table "songs" if table does not exist.'''
+        Song.create_table()
+        assert(CURSOR.execute("SELECT * FROM songs"))
+
+    def test_initializes_with_name_and_album(self):
+        '''takes a name and album as __init__ arguments and saves them as instance attributes.'''
+        song = Song("Hold On", "Born to Sing")
+        assert(song.name == "Hold On" and song.album == "Born to Sing")
+
+    def test_saves_song_to_table(self):
+        '''has instancemethod "save()" that saves a song to music.db.'''
+        song = Song("Hold On", "Born to Sing")
+        song.save()
+        db_song = CURSOR.execute(
+            'SELECT * FROM songs WHERE name=? AND album=?',
+            ('Hold On', 'Born to Sing')
+        ).fetchone()
+        assert(db_song[1] == song.name and db_song[2] == song.album)
+
+    def creates_and_returns_song(self):
+        '''has classmethod "create()" that creates a Song instance, saves it, and returns it.'''
+        song = Song.create("Hold On", "Born to Sing")
+        db_song = CURSOR.execute(
+            'SELECT * FROM songs WHERE name=? AND album=?',
+            ('Hold On', 'Born to Sing')
+        ).fetchone()
+        assert(db_song[0] == song[0] and db_song[1] == song[1] and db_song[2] == song[2])

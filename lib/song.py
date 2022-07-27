@@ -1,9 +1,9 @@
-from . import CONN, CURSOR
+from . import CURSOR
 
 class Song:
 
-    def __init__(self, name, album, id=None):
-        self.id = id
+    def __init__(self, name, album):
+        self.id = None
         self.name = name
         self.album = album
 
@@ -16,6 +16,7 @@ class Song:
                 album TEXT
             )
         """
+
         CURSOR.execute(sql)
 
     def save(self):
@@ -27,3 +28,9 @@ class Song:
         CURSOR.execute(sql, (self.name, self.album))
 
         self.id = CURSOR.execute("SELECT last_insert_rowid() FROM songs").fetchone()[0]
+
+    @classmethod
+    def create(cls, name, album):
+        song = Song(name, album)
+        song.save()
+        return song

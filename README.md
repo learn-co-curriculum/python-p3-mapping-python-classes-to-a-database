@@ -68,16 +68,14 @@ often contain variables that will be used by many classes in the program:
 import sqlite3
 
 CONN = sqlite3.connect('db/music.db')
-CURSOR = CONN.cursor()
 ```
 
 Here we set up a constant, `CONN`, that is equal to a hash that contains our
-connection to the database. We also set up a constant `CURSOR` to allow us to
-execute statements and queries using `CONN`. In our `lib/song.py` file, we can
-therefore access the `CONN` and `CURSOR` constants like this:
+connection to the database. In our `lib/song.py` file, we can
+therefore access the `CONN` constant like this:
 
 ```py
-from . import CONN, CURSOR
+from . import CONN
 ```
 
 The starter code for these files is set up, so you can explore it and code along
@@ -99,8 +97,8 @@ columns:
 ```py
 class Song:
 
-    def __init__(self, name, album, id=None):
-        self.id = id
+    def __init__(self, name, album):
+        self.id = None
         self.name = name
         self.album = album
 
@@ -113,6 +111,7 @@ class Song:
                 album TEXT
             )
         """
+
         CURSOR.execute(sql)
 ```
 
@@ -139,7 +138,7 @@ record's `id`, we would have a very disorganized database. Only the database
 itself, through the magic of SQL, can ensure that the `id` of each record is
 unique.
 
-#### The `.create_table` Method
+#### The `create_table()` Method
 
 Above, we created a class method, `create_table()`, that crafts a SQL statement
 to create a songs table and give that table column names that match the
@@ -156,11 +155,11 @@ Open the Python shell from this lesson's root directory and enter the following
 code:
 
 ```py
-from lib import CONN, CURSOR
+from lib import CONN
 from lib.song import Song
 ```
 
-Now run the `Song.create_table` method:
+Now run the `create_table()` method:
 
 ```py
 Song.create_table()
@@ -171,7 +170,7 @@ like to confirm that the table was created successfully, you can run a special
 `PRAGMA` command to show the information about the `songs` table:
 
 ```py
-CURSOR.execute("PRAGMA table_info(songs)")
+[column for column in CURSOR.execute("PRAGMA table_info(songs)")]
 # => [(0, 'id', 'INTEGER', 0, None, 1), (1, 'name', 'TEXT', 0, None, 0), (2, 'album', 'TEXT', 0, None, 0)]
 ```
 
@@ -342,6 +341,7 @@ class Song:
                 album TEXT
             )
         """
+        
         CURSOR.execute(sql)
 
     def save(self):
@@ -463,7 +463,8 @@ is so common, let's write a method that does just that.
 ### The `create()` Method
 
 This class method will wrap the code we used above to create a new `Song`
-instance and save it.
+instance and save it. We use a class method here because our instance does not
+exist at the time the method is called.
 
 ```py
 class Song:
@@ -471,7 +472,7 @@ class Song:
     # ... rest of Song methods
 
     @classmethod
-    def create(cls, name, album)
+    def create(cls, name, album):
         song = Song(name, album)
         song.save()
         return song
