@@ -250,7 +250,7 @@ Let's build an instance method, `save()`, that saves a given instance of our
 ```py
 class Song:
 
-    # ... rest of song methods
+    # ... rest of Song methods
 
     def save(self):
         sql = """
@@ -374,6 +374,137 @@ songs = CURSOR.execute('SELECT * FROM songs')
 [row for row in songs]
 # => [(1, 'Hello', '25'), (2, 'Despacito', 'Vida')]
 ```
+
+### Giving Our `Song` Instance an `id`
+
+When we `INSERT` the data concerning a particular `Song` instance into our
+database table, we create a new row in that table. That row would look something
+like this:
+
+| id | name | album |
+| --- | --- | --- |
+| 1 | Hello | 25 |
+
+Notice that the database table's row has a column for `name`, `album` and also
+`id`. Recall that we created our table to have a column for the primary key, ID,
+of a given record. So, as each record gets inserted into the database, it is
+given an ID number automatically.
+
+In this way, our `hello` instance is stored in the database with the name and
+album that we gave it, _plus_ an ID number that the database assigns to it.
+
+We want our `hello` instance to completely reflect the database row it is
+associated with so that we can retrieve it from the table later on with ease.
+So, once the new row with `hello`'s data is inserted into the table, let's grab
+the `ID` of that newly inserted row and assign it to be the value of `hello`'s
+`id` attribute.
+
+```py
+class Song:
+
+    # ... rest of Song methods
+
+    def save(self):
+        sql = """
+            INSERT INTO songs (name, album)
+            VALUES (?, ?)
+        """
+
+        CURSOR.execute(sql, (self.name, self.album))
+
+        self.id = CURSOR.execute("SELECT last_insert_rowid() FROM songs").fetchone()[0]
+```
+
+At the end of our `save()` method, we use a SQL query to grab the value of the
+`id` column of the last inserted row, and set that equal to the given song
+instance's `id` attribute. Don't worry too much about how that SQL query works
+for now, we'll learn more about it later. The important thing to understand is
+the process of:
+
+- Instantiating a new instance of the `Song` class.
+- Inserting a new row into the database table that contains the information
+  regarding that instance.
+- Grabbing the `id` of that newly inserted row and assigning the given `Song`
+  instance's `id` attribute equal to the `id` of its associated database table
+  row.
+
+Let's revisit our code that instantiated and saved some songs by opening the
+Python shell and entering the following code:
+
+```py
+hello = Song("Hello", "25")
+hello.save()
+
+despacito = Song("Despacito", "Vida")
+despacito.save()
+
+hello.id
+# => 1
+despacito.id
+# => 2
+```
+
+Here we:
+
+- Create the songs table.
+- Create two new song instances.
+- Use the `save()` method to persist them to the database.
+
+This approach still leaves a little to be desired, however. Here, we have to
+first create the new song and then save it, every time we want to create and
+save a song. This is repetitive and tedious. As programmers (you might
+remember), we are lazy. If we can accomplish something with fewer lines of code
+we do it. **Any time we see the same code being used again and again, we think
+about abstracting that code into a method.**
+
+Since first creating an object and then saving a record representing that object
+is so common, let's write a method that does just that.
+
+### The `create()` Method
+
+This class method will wrap the code we used above to create a new `Song`
+instance and save it.
+
+```py
+class Song:
+
+    # ... rest of Song methods
+
+    @classmethod
+    def create(cls, name, album)
+        song = Song(name, album)
+        song.save()
+        return song
+```
+
+Here, we use keyword arguments to pass a name and album into our `create()`
+method. We use that name and album to instantiate a new song. Then, we use the
+`save` method to persist that song to the database.
+
+Notice that at the end of the method, we are returning the `Song` instance that
+we instantiated. The return value of `create()` should always be the object that
+we created. Why? Imagine you are working with your program and you create a new
+song:
+
+```py
+Song.create("Hello", "25")
+```
+
+Now, we would have to run a separate query on our database to grab the record
+that we just created. That is way too much work for us. It would be much easier
+for our `create()` method to simply return the new object for us to work with:
+
+```py
+song = Song.create("Hello", "25")
+song.name
+# => "Hello"
+song.album
+# => "25"
+```
+
+Excellent! Run`pipenv install` and `pipenv shell` if you have not yet to set up
+your virtual environment. Run `pytest -x` now to pass the tests, then submit the
+assignment using `git`.
 
 ## Lesson Section
 
