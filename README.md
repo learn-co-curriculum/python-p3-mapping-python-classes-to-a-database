@@ -564,14 +564,26 @@ submit.
 
 ## Conclusion
 
-Conclusion summary paragraph. Include common misconceptions and what students
-will be able to do moving forward.
+The important concept to grasp here is the idea that we are _not_ saving Python
+objects into our database. We are using the attributes of a given Python object
+to create a new row in our database table.
+
+Think of it like making butter cookies. You have a cookie cutter, which in our
+case would be our class. It describes what a cookie should look like. Then you
+use it to cut out a cookie, or instantiate a class object. But that's not
+enough, you have to show it to your friends. So you take a picture of it and
+post to your MyFace account and share it with everybody else, like how your
+database can share information with other parts of your program.
+
+The picture doesn't do anything to the cookie itself, but merely captures
+certain aspects of it. It's a butter cookie, it looks fresh and delicious, and
+it has little sprinkles on it. Those aspects are captured in the picture, but
+the cookie and the picture are still two different things. After you eat the
+cookie, or in our case after you delete the Python object, the database will not
+change at all until the record is deleted, and vice versa.
 
 ***
 
 ## Resources
 
-- [Resource 1](https://www.python.org/doc/essays/blurb/)
-- [Reused Resource][reused resource]
-
-[reused resource]: https://docs.python.org/3/
+- [sqlite3 - DB-API 2.0 interface for SQLite databases - Python](https://docs.python.org/3/library/sqlite3.html)
