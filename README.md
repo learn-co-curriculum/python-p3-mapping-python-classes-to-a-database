@@ -170,7 +170,7 @@ like to confirm that the table was created successfully, you can run a special
 `PRAGMA` command to show the information about the `songs` table:
 
 ```py
-[column for column in CURSOR.execute("PRAGMA table_info(songs)")]
+CURSOR.execute("PRAGMA table_info(songs)").fetchall()
 # => [(0, 'id', 'INTEGER', 0, None, 1), (1, 'name', 'TEXT', 0, None, 0), (2, 'album', 'TEXT', 0, None, 0)]
 ```
 
