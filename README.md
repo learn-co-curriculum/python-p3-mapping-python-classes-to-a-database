@@ -166,15 +166,22 @@ Now that our songs table exists, we can learn how to save data regarding
 individual songs into that table.
 
 You can try out this code now to create the table in the `db/music.db` file.
-Open the Python shell from this lesson's root directory and enter the following
-code:
+Check out the code in the `debug.py` file:
 
 ```py
-from lib import CURSOR
+#!/usr/bin/env python3
+
+from lib import CONN, CURSOR
 from lib.song import Song
+
+import pytest; pytest.set_trace()
 ```
 
-Now run the `create_table()` method:
+In this file, we're importing in the `sqlite3.Connection` and `sqlite3.Cursor`
+objects that we instantiated in `lib/__init__.py`. We're also importing the
+`Song` class so that we can use its methods during our `ipdb` session.
+
+Run `python debug.py` to enter `ipdb`, then run the `create_table()` method:
 
 ```py
 Song.create_table()
