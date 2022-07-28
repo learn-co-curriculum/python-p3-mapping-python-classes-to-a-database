@@ -72,15 +72,29 @@ CURSOR = CONN.cursor()
 ```
 
 Here we set up a constant, `CONN`, that is equal to a hash that contains our
-connection to the database. In our `lib/song.py` file, we can
-therefore access the `CONN` constant like this:
+connection to the database, as well as a constant `CURSOR` that allows us to
+interact with the database. In our `lib/song.py` file, we can therefore access
+these constants like this:
 
 ```py
-from . import CURSOR
+from . import CONN, CURSOR
 ```
 
 The starter code for these files is set up, so you can explore it and code along
 with the rest of this lesson.
+
+<details>
+  <summary>
+    <em>Which constant will we use to execute SQL statements: <code>CONN</code>
+        or <code>CURSOR</code>?</em>
+  </summary>
+
+  <h3><code>CURSOR</code></h3>
+  <p><code>sqlite3.Connection</code> objects represent our connection to the
+     database, but <code>sqlite3.Cursor</code> objects are necessary to execute
+     most statements.</p>
+</details>
+<br/>
 
 ### Creating the Table
 
@@ -178,6 +192,20 @@ like to confirm that the table was created successfully, you can run a special
 The output isn't easy to read, but you'll see the different column names (`id`,
 `name`, `album`) along with their data types (`INTEGER`, `TEXT`, `TEXT`).
 Success!
+
+<details>
+  <summary>
+    <em>If we wanted to make a method to <code>DROP</code> a table, should we
+        make an instance method or a class method?</em>
+  </summary>
+
+  <h3>A class method.</h3>
+  <p>Instance methods should only include behaviors that affect instances or
+     are carried out by instances- these map to <em>rows</em> in a table. As a
+     <code>DROP</code> command affects the table itself, it should be carried
+     out by a class method.</p>
+</details>
+<br/>
 
 ***
 
@@ -504,62 +532,9 @@ song.album
 # => "25"
 ```
 
-Excellent! Run`pipenv install` and `pipenv shell` if you have not yet to set up
+Excellent! Run `pipenv install` and `pipenv shell` if you have not yet to set up
 your virtual environment. Run `pytest -x` now to pass the tests, then submit the
 assignment using `git`.
-
-## Lesson Section
-
-Lorem ipsum dolor sit amet. Ut velit fugit et porro voluptas quia sequi quo
-libero autem qui similique placeat eum velit autem aut repellendus quia. Et
-Quis magni ut fugit obcaecati in expedita fugiat est iste rerum qui ipsam
-ducimus et quaerat maxime sit eaque minus. Est molestias voluptatem et nostrum
-recusandae qui incidunt Quis 33 ipsum perferendis sed similique architecto.
-
-```py
-# python code block
-print("statement")
-# => statement
-```
-
-```js
-// javascript code block
-console.log("use these for comparisons between languages.")
-// => use these for comparisons between languages.
-```
-
-```console
-echo "bash/zshell statement"
-# => bash/zshell statement
-```
-
-<details>
-  <summary>
-    <em>Check for understanding text goes here! <code>Code statements go here.</code></em>
-  </summary>
-
-  <h3>Answer.</h3>
-  <p>Elaboration on answer.</p>
-</details>
-<br/>
-
-***
-
-## Instructions
-
-This is a **test-driven lab**. Run `pipenv install` to create your virtual
-environment and `pipenv shell` to enter the virtual environment. Then run
-`pytest -x` to run your tests. Use these instructions and `pytest`'s error
-messages to complete your work in the `lib/` folder.
-
-Instructions begin here:
-
-- Make sure to specify any class, method, variable, module, package names
-  that `pytest` will check for.
-- Any other instructions go here.
-
-Once all of your tests are passing, commit and push your work using `git` to
-submit.
 
 ***
 
