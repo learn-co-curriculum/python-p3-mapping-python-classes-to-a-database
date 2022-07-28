@@ -179,9 +179,9 @@ import pytest; pytest.set_trace()
 
 In this file, we're importing in the `sqlite3.Connection` and `sqlite3.Cursor`
 objects that we instantiated in `lib/__init__.py`. We're also importing the
-`Song` class so that we can use its methods during our `ipdb` session.
+`Song` class so that we can use its methods during our `pdb` session.
 
-Run `python debug.py` to enter `ipdb`, then run the `create_table()` method:
+Run `python debug.py` to enter `pdb`, then run the `create_table()` method:
 
 ```py
 Song.create_table()
@@ -389,9 +389,10 @@ class Song:
         CURSOR.execute(sql, (self.name, self.album))
 ```
 
-Now, we can create and save songs like this. Try this out in the Python shell
-(make sure to exit out of your previous shell with `exit()` or `ctrl+D` in order
-to reload the code if you left it open earlier):
+Now, we can create and save songs like this. Try this out by running
+`python debug.py` and running this code in the `pdb` session (make sure to exit out
+of `pdb` with `exit()` or `ctrl+D` in order to reload the code if you left it
+open earlier):
 
 ```py
 hello = Song("Hello", "25")
@@ -403,7 +404,7 @@ despacito.save()
 
 That last line of the `save()` method returns an empty array once more since
 `INSERT`ing new rows in a database doesn't return any data, but you can check if
-all the records were indeed saved by running this in your shell:
+all the records were indeed saved by running this in `pdb`:
 
 ```py
 songs = CURSOR.execute('SELECT * FROM songs')
@@ -464,8 +465,8 @@ the process of:
   instance's `id` attribute equal to the `id` of its associated database table
   row.
 
-Let's revisit our code that instantiated and saved some songs by opening the
-Python shell and entering the following code:
+Let's revisit our code that instantiated and saved some songs by running
+`python debug.py` and entering the following code:
 
 ```py
 hello = Song("Hello", "25")
