@@ -363,8 +363,8 @@ So, we'll keep our `__init__` and `save()` methods separate:
 ```py
 class Song:
 
-    def __init__(self, name, album, id=None):
-        self.id = id
+    def __init__(self, name, album):
+        self.id = None
         self.name = name
         self.album = album
 
