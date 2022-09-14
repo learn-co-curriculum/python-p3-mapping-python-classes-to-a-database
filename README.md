@@ -231,7 +231,7 @@ database as one, single row.
 For example, let's say we have a song:
 
 ```py
-blinding_lights = Song("Blinding Lights", "After Hours")
+blinding_lights = Song.new("Blinding Lights", "After Hours")
 
 blinding_lights.name
 # => "Blinding Lights"
