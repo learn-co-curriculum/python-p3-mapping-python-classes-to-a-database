@@ -253,7 +253,7 @@ VALUES ("Blinding Lights", "After Hours");
 What if we had another song that we wanted to save?
 
 ```py
-hello = Song.new("Hello", "25")
+hello = Song("Hello", "25")
 
 hello.name
 # => "Hello"
