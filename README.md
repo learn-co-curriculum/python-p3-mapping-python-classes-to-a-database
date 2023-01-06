@@ -67,7 +67,7 @@ often contain variables that will be used by many classes in the program:
 ```py
 import sqlite3
 
-CONN = sqlite3.connect('db/music.db')
+CONN = sqlite3.connect('music.db')
 CURSOR = CONN.cursor()
 ```
 
@@ -165,16 +165,16 @@ class as a whole to create the table that it is mapped to.
 Now that our songs table exists, we can learn how to save data regarding
 individual songs into that table.
 
-You can try out this code now to create the table in the `db/music.db` file.
+You can try out this code now to create the table in the `music.db` file.
 Check out the code in the `debug.py` file:
 
 ```py
 #!/usr/bin/env python3
 
-from lib import CONN, CURSOR
-from lib.song import Song
+from . import CONN, CURSOR
+from song import Song
 
-import pytest; pytest.set_trace()
+import ipdb; ipdb.set_trace()
 ```
 
 In this file, we're importing in the `sqlite3.Connection` and `sqlite3.Cursor`
