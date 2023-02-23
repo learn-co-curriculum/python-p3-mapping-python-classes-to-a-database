@@ -61,10 +61,11 @@ the database as a whole. We may want to build other classes that we equate with
 other database tables later on.
 
 It is the responsibility of our program as a whole to create and establish the
-database. Accordingly, you'll see that Python packages' `__init__.py` modules
-often contain variables that will be used by many classes in the program:
+database. Accordingly, you'll see that Python packages have modules solely for
+configuration of reused (constant) variables:
 
 ```py
+# lib/config.py
 import sqlite3
 
 CONN = sqlite3.connect('music.db')
@@ -178,7 +179,7 @@ import ipdb; ipdb.set_trace()
 ```
 
 In this file, we're importing in the `sqlite3.Connection` and `sqlite3.Cursor`
-objects that we instantiated in `lib/__init__.py`. We're also importing the
+objects that we instantiated in `lib/config.py`. We're also importing the
 `Song` class so that we can use its methods during our `pdb` session.
 
 Run `python debug.py` to enter `pdb`, then run the `create_table()` method:

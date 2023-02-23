@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-from . import CONN, CURSOR
+from config import CONN, CURSOR
 from song import Song
 
 
