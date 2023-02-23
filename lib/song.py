@@ -1,4 +1,4 @@
-from config import CURSOR
+from config import CONN, CURSOR
 
 class Song:
     pass
