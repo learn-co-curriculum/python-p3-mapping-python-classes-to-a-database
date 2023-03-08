@@ -119,7 +119,7 @@ class Song:
         self.album = album
 
     @classmethod
-    def create_table(self):
+    def create_table(cls):
         sql = """
             CREATE TABLE IF NOT EXISTS songs (
                 id INTEGER PRIMARY KEY,
